@@ -1,0 +1,38 @@
+cask "input-stats" do
+  version "0.2.2"
+  sha256 "6d64c65a069439db9e6829496134d6041b000cb5014981b4f2ff502f9b432a6b"
+
+  url "https://github.com/mewc/input-stats/releases/download/v#{version}/InputStats.zip"
+  name "Input Stats"
+  desc "Menu-bar counter for keystrokes, clicks, scroll and pointer distance — never what you type"
+  homepage "https://input-stats.drummerduck.com/"
+
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  auto_updates true
+  depends_on macos: ">= :sonoma"
+
+  app "Input Stats.app"
+
+  postflight do
+    # The release is self-signed (not notarized). Clear quarantine so Gatekeeper
+    # doesn't block first launch; the app still needs an Accessibility grant.
+    system_command "/usr/bin/xattr", args: ["-cr", "#{appdir}/Input Stats.app"], sudo: false
+  end
+
+  uninstall quit: "com.mewc.input-stats"
+
+  zap trash: [
+    "~/Library/Application Support/TypingStats",
+    "~/Library/Preferences/com.mewc.input-stats.plist",
+  ]
+
+  caveats <<~EOS
+    Input Stats needs Accessibility access to count input events:
+      System Settings → Privacy & Security → Accessibility → enable Input Stats
+    It only ever counts. Keystrokes are never recorded.
+  EOS
+end
