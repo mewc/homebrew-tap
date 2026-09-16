@@ -4,7 +4,7 @@ cask "input-stats" do
 
   url "https://github.com/mewc/input-stats/releases/download/v#{version}/InputStats.zip"
   name "Input Stats"
-  desc "Menu-bar counter for keystrokes, clicks, scroll and pointer distance — never what you type"
+  desc "Menu-bar counter for keys, clicks, scroll and mouse distance (never content)"
   homepage "https://input-stats.drummerduck.com/"
 
   livecheck do
@@ -13,14 +13,14 @@ cask "input-stats" do
   end
 
   auto_updates true
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
 
   app "Input Stats.app"
 
-  postflight do
-    # The release is self-signed (not notarized). Clear quarantine so Gatekeeper
-    # doesn't block first launch; the app still needs an Accessibility grant.
-    system_command "/usr/bin/xattr", args: ["-cr", "#{appdir}/Input Stats.app"], sudo: false
+  # The release is self-signed (not notarized). Clear quarantine so Gatekeeper
+  # doesn't block first launch; the app still needs an Accessibility grant.
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/Input Stats.app"]
   end
 
   uninstall quit: "com.mewc.input-stats"
