@@ -1,6 +1,6 @@
 cask "input-stats" do
-  version "0.3.4"
-  sha256 "c4866fe47d1fd5f9bb92e754329350b92565378c95f4aa56604d399a050d39b1"
+  version "0.3.5"
+  sha256 "117a988278652263a8fff24567f8de5607775a37cc03f8f97a2d3399fc077e7f"
 
   url "https://github.com/mewc/input-stats/releases/download/v#{version}/InputStats.zip"
   name "Input Stats"
